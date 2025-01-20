@@ -6,11 +6,11 @@ namespace AdvancedLINQApiShowcase.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerService : ControllerBase
+    public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
 
-        public CustomerService(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService)
         {
             _customerService = customerService;
         }
@@ -22,11 +22,14 @@ namespace AdvancedLINQApiShowcase.Controllers
             return Ok(customers);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id)
         {
-            var customer = await _customerService.GetCustomersByIdAsync(id);
-
+            var customer = await _customerService.GetCustomerByIdAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
             return Ok(customer);
         }
     }
