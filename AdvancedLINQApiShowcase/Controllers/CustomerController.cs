@@ -1,4 +1,5 @@
 ﻿using AdvancedLINQApiShowcase.Interfaces;
+using AdvancedLINQApiShowcase.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,10 @@ namespace AdvancedLINQApiShowcase.Controllers
 
         public CustomerController(ICustomerService customerService)
         {
-            _customerService = customerService;
+            this._customerService = customerService;
         }
 
+        // GET: api/Customer
         [HttpGet]
         public async Task<IActionResult> GetCostomers()
         {
@@ -22,15 +24,48 @@ namespace AdvancedLINQApiShowcase.Controllers
             return Ok(customers);
         }
 
+        // GET: api/Customer/3
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id)
         {
             var customer = await _customerService.GetCustomerByIdAsync(id);
             if (customer == null)
-            {
                 return NotFound();
-            }
             return Ok(customer);
+        }
+
+        // POST: api/Customer
+        [HttpPost]
+        public async Task<IActionResult> CreateCustomer([FromBody] Customer customer)
+        {
+            if (customer == null)
+                return BadRequest();
+
+            await _customerService.AddCustomerAsync(customer);
+            return CreatedAtAction(nameof(GetCustomer), new
+            {
+                id = customer.Id
+            }, customer);
+        }
+
+        // PUT: api/Customer/3
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
+        {
+            if (customer == null || id != customer.Id)
+                return BadRequest();
+            
+            customer.Id = id;
+            await _customerService.UpdateCustomerAsync(customer);
+            return NoContent();
+        }
+
+        // DELETE: api/Customer/3
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCustomer(int id)
+        {
+            await _customerService.DeleteCustomerByIdAsync(id);      
+            return NoContent();
         }
     }
 }
