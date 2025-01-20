@@ -1,6 +1,35 @@
-# @AdvancedLINQApiShowcase_HostAddress = http://localhost:5200
+@AdvancedLINQApiShowcase_HostAddress = http://localhost:5200
 
-# GET {{AdvancedLINQApiShowcase_HostAddress}}/weatherforecast/
-# Accept: application/json
+GET {{AdvancedLINQApiShowcase_HostAddress}}/weatherforecast/
+Accept: application/json
 
-# ###
+###
+
+### Get all customers
+GET http://localhost:5000/api/customers
+Accept: application/json
+
+### Create a new customer
+POST http://localhost:5000/api/customers
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com"
+}
+
+### Get a specific customer
+GET http://localhost:5000/api/customers/1
+Accept: application/json
+
+### Update customer
+PUT http://localhost:5000/api/customers/1
+Content-Type: application/json
+
+{
+  "name": "Jane Doe Updated",
+  "email": "jane.doe.updated@example.com"
+}
+
+### Delete customer
+DELETE http://localhost:5000/api/customers/1
