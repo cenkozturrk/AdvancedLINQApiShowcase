@@ -1,0 +1,6 @@
+@AdvancedLINQApiShowcase_HostAddress = http://localhost:5200
+
+GET {{AdvancedLINQApiShowcase_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
