@@ -18,20 +18,34 @@ namespace AdvancedLINQApiShowcase.Controllers
 
         // GET: api/Customer
         [HttpGet]
-        public async Task<IActionResult> GetCostomers()
+        public async Task<IActionResult> GetCustomers()
         {
-            var customers = await _customerService.GetAllCustomersAsync();
-            return Ok(customers);
+            try
+            {
+                var customers = await _customerService.GetAllCustomersAsync();
+                return Ok(customers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // GET: api/Customer/3
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id)
         {
-            var customer = await _customerService.GetCustomerByIdAsync(id);
-            if (customer == null)
-                return NotFound();
-            return Ok(customer);
+            try
+            {
+                var customer = await _customerService.GetCustomerByIdAsync(id);
+                if (customer == null)
+                    return NotFound();
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // POST: api/Customer
@@ -52,7 +66,7 @@ namespace AdvancedLINQApiShowcase.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
         {
-            if (customer == null || id != customer.Id)
+            if (id != customer.Id)
                 return BadRequest();
             
             customer.Id = id;

@@ -16,13 +16,12 @@ namespace AdvancedLINQApiShowcase.Services
         }
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
-            return await _context.Customers.Include(c => c.Orders).ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
-            return await _context.Customers.Include(c => c.Orders)
-                                           .FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
         }
         public async Task AddCustomerAsync(Customer customer)
         {
