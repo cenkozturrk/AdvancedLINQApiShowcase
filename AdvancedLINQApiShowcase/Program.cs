@@ -1,5 +1,6 @@
 using AdvancedLINQApiShowcase.DataAccess;
 using AdvancedLINQApiShowcase.Interfaces;
+using AdvancedLINQApiShowcase.Middleware;
 using AdvancedLINQApiShowcase.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,8 +30,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapControllers();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 

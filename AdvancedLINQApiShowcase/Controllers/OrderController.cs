@@ -23,8 +23,21 @@ namespace AdvancedLINQApiShowcase.Controllers
             var orders = await _orderService.GetAllOrdersAsync();
             return Ok(orders);
         }
+        // Test the middleware.
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetOrder(int id)
+        //{
+        //    if (id <= 0)
+        //        throw new ArgumentException("Invalid order ID provided.");
 
-        // GET: api/Order/5
+        //    var order = await _orderService.GetOrderByIdAsync(id);
+        //    if (order == null)
+        //        throw new KeyNotFoundException("Order not found.");
+
+        //    return Ok(order);
+        //}
+
+        //// GET: api/Order/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
