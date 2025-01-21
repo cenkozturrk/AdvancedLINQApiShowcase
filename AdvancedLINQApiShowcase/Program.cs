@@ -36,4 +36,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapFallback(() => Results.Redirect("/swagger"));
+
 app.Run();

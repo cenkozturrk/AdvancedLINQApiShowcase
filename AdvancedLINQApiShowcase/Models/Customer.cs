@@ -6,6 +6,6 @@
         public string Email { get; set; }
 
         // One-to-many relationship: One customer can have many orders
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; }
     }
 }

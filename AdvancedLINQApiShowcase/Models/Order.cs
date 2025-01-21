@@ -7,7 +7,7 @@
 
         // Foreign key to Customer (Many-to-one relationship)
         public int CustomerId { get; set; }        
-        public Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
 
 
 

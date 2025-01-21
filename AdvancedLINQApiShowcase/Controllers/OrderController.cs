@@ -38,16 +38,19 @@ namespace AdvancedLINQApiShowcase.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] Order order)
         {
-            Console.WriteLine("Request alındı");
+            if (order == null || order.CustomerId == 0)
+                return BadRequest(new
+                {
+                    error = "CustomerId is required."
+                });
 
-            if (order == null)
-                return BadRequest();
             await _orderService.AddOrderAsync(order);
             return CreatedAtAction(nameof(GetOrder), new
             {
                 id = order.Id
             }, order);
         }
+
 
         // PUT: api/Order/5
         [HttpPut("{id}")]
