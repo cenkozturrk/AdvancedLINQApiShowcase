@@ -2,13 +2,16 @@ using AdvancedLINQApiShowcase.DataAccess;
 using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Middleware;
 using AdvancedLINQApiShowcase.Services;
+using AdvancedLINQApiShowcase.Validation;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 
-// Configure Serilog
+// Configure Serilog conf
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration) // Read config from appsettings.json
     .Enrich.FromLogContext()
@@ -16,8 +19,10 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File(@"C:\Users\Ceku\source\repos\AdvancedLINQApiShowcase\AdvancedLINQApiShowcase\Serilog\log-.txt",
         rollingInterval: RollingInterval.Day)
     .CreateLogger();
-
 builder.Host.UseSerilog();
+
+
+
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -29,6 +34,16 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 
 
 builder.Services.AddControllers();
+
+// Fluent Validation conf
+// Register FluentValidation services
+builder.Services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
+// Register Validators
+builder.Services.AddValidatorsFromAssemblyContaining<OrderValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CustomerValidator>();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
