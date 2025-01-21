@@ -1,0 +1,7 @@
+2025-01-22 00:14:44.004 +03:00 [INF] Starting the application...
+2025-01-22 00:14:49.012 +03:00 [INF] Fetching all customers
+2025-01-22 00:29:22.991 +03:00 [INF] Starting the application...
+2025-01-22 00:29:34.225 +03:00 [INF] Fetching all customers
+2025-01-22 00:30:03.103 +03:00 [INF] Fetching all orders
+2025-01-22 00:30:21.016 +03:00 [INF] Transaction ac61f5f4-c877-48ef-91d6-9b6754ff9053 started: Creating an order.
+2025-01-22 00:30:21.162 +03:00 [INF] Transaction ac61f5f4-c877-48ef-91d6-9b6754ff9053 succeeded: Order created successfully. OrderId: 8, CustomerId: 2.

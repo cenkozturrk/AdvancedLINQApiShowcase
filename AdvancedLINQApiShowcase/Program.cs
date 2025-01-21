@@ -3,13 +3,27 @@ using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Middleware;
 using AdvancedLINQApiShowcase.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration) // Read config from appsettings.json
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File(@"C:\Users\Ceku\source\repos\AdvancedLINQApiShowcase\AdvancedLINQApiShowcase\Serilog\log-.txt",
+        rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Lifecycle
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
@@ -37,8 +51,22 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
-
 app.MapFallback(() => Results.Redirect("/swagger"));
+
+app.MapControllers();
+try
+{
+    Log.Information("Starting the application...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
+
 
 app.Run();
