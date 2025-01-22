@@ -1,4 +1,5 @@
 ﻿using AdvancedLINQApiShowcase.Dto;
+using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,66 +15,34 @@ namespace AdvancedLINQApiShowcase.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IConfiguration configuration) : ControllerBase
+    public class UserController(IAuthService authService) : ControllerBase
     {
-        public static User user = new User();
-
         [HttpPost("register")]
-        public ActionResult<User> Register(UserDto request)
-        {
-            var hashedPassword = new PasswordHasher<User>()
-                .HashPassword(user, request.Password);
-
-            user.Username = request.Username;
-            user.PasswordHash = hashedPassword;
-
+        public async Task<ActionResult<User>> Register(UserDto request)
+        {           
+            var user  = await authService.RegisterAsync(request);
+            if (user is null)
+                return BadRequest(new
+                {
+                    error = "Username already exists"
+                });         
+                            
             return Ok(user);
         }
 
         [HttpPost("login")]
-        public ActionResult<string> Login(UserDto request)
+        public async Task<ActionResult<string>> Login(UserDto request)
         {
-            if (user.Username != request.Username)
-            {
+           var token = await authService.LoginAsync(request);
+            if (token is null)
                 return BadRequest(new
                 {
-                    error = "User not found."
+                    error = "Invalid username or password."
                 });
-            }
-            if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) 
-                == PasswordVerificationResult.Failed )
-            {
-                return BadRequest(new
-                {
-                    error = "Wrong Password."
-                });               
-            }
-            string token = CreateToken(user);
 
             return Ok(token);
         }
 
-        private string CreateToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username)
-            };
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var tokenDescriptor = new JwtSecurityToken(
-                issuer: configuration.GetValue<string>("AppSettings:Issuer"),
-                audience: configuration.GetValue<string>("AppSettings:Audience"),
-                claims: claims,
-                expires: DateTime.UtcNow.AddDays(1),
-                signingCredentials: creds);  
-            
-            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
-
-        }
 
         
     }
