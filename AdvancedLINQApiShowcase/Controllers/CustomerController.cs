@@ -35,7 +35,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }
         }
 
-        // GET: api/Customer/3
+        // GET: api/Customer
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id)
         {
@@ -71,7 +71,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }, customer);
         }
 
-        // PUT: api/Customer/3
+        // PUT: api/Customer
         // Keeping an extensive detailed log(UpdateCustomer)
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
@@ -112,7 +112,7 @@ namespace AdvancedLINQApiShowcase.Controllers
         }
 
 
-        // DELETE: api/Customer/3
+        // DELETE: api/Customer
         [HttpDelete]
         public async Task<IActionResult> DeleteCustomer(int id)
         {

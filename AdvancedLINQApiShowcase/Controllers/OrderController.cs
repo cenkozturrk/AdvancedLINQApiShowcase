@@ -98,7 +98,7 @@ namespace AdvancedLINQApiShowcase.Controllers
 
 
 
-        // PUT: api/Order/5
+        // PUT: api/Order
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order)
         {
@@ -110,7 +110,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Order/5
+        // DELETE: api/Order
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
