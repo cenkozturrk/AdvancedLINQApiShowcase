@@ -22,7 +22,7 @@ namespace AdvancedLINQApiShowcase.Controllers
         public ActionResult<User> Register(UserDto request)
         {
             var hashedPassword = new PasswordHasher<User>()
-                .HashPassword(user, request.Username);
+                .HashPassword(user, request.Password);
 
             user.Username = request.Username;
             user.PasswordHash = hashedPassword;
