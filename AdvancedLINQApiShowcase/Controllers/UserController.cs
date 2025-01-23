@@ -1,6 +1,7 @@
 ﻿using AdvancedLINQApiShowcase.Dto;
 using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,12 @@ namespace AdvancedLINQApiShowcase.Controllers
             return Ok(token);
         }
 
-
+        [Authorize]
+        [HttpGet]
+        public IActionResult AuthenticatedOnlyEndPoint()
+        {
+            return Ok("You are in!!");
+        }
         
     }
 }

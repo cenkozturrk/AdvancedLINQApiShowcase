@@ -1,0 +1,27 @@
+2025-01-24 02:26:31.352 +03:00 [INF] Starting the application...
+2025-01-24 02:30:39.435 +03:00 [INF] Starting the application...
+2025-01-24 02:30:53.064 +03:00 [ERR] An unhandled exception occurred
+System.InvalidOperationException: Unsupported HTTP method: 
+   at ApiDescriptionExtensions.GetOperationType(ApiDescription apiDescription)
+   at Microsoft.AspNetCore.OpenApi.OpenApiDocumentService.GetOperationsAsync(IGrouping`2 descriptions, HashSet`1 capturedTags, IServiceProvider scopedServiceProvider, IOpenApiOperationTransformer[] operationTransformers, IOpenApiSchemaTransformer[] schemaTransformers, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.OpenApi.OpenApiDocumentService.GetOpenApiPathsAsync(HashSet`1 capturedTags, IServiceProvider scopedServiceProvider, IOpenApiOperationTransformer[] operationTransformers, IOpenApiSchemaTransformer[] schemaTransformers, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.OpenApi.OpenApiDocumentService.GetOpenApiDocumentAsync(IServiceProvider scopedServiceProvider, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Builder.OpenApiEndpointRouteBuilderExtensions.<>c__DisplayClass0_0.<<MapOpenApi>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.Generated.<GeneratedRouteBuilderExtensions_g>F56B68D2B55B5B7B373BA2E4796D897848BC0F04A969B1AF6260183E8B9E0BAF2__GeneratedRouteBuilderExtensionsCore.<>c__DisplayClass2_0.<<MapGet0>g__RequestHandler|5>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at AdvancedLINQApiShowcase.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\Ceku\source\repos\AdvancedLINQApiShowcase\AdvancedLINQApiShowcase\Middleware\ExceptionMiddleware.cs:line 22
+2025-01-24 02:31:07.407 +03:00 [ERR] An unhandled exception occurred
+System.InvalidOperationException: Unsupported HTTP method: 
+   at ApiDescriptionExtensions.GetOperationType(ApiDescription apiDescription)
+   at Microsoft.AspNetCore.OpenApi.OpenApiDocumentService.GetOperationsAsync(IGrouping`2 descriptions, HashSet`1 capturedTags, IServiceProvider scopedServiceProvider, IOpenApiOperationTransformer[] operationTransformers, IOpenApiSchemaTransformer[] schemaTransformers, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.OpenApi.OpenApiDocumentService.GetOpenApiPathsAsync(HashSet`1 capturedTags, IServiceProvider scopedServiceProvider, IOpenApiOperationTransformer[] operationTransformers, IOpenApiSchemaTransformer[] schemaTransformers, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.OpenApi.OpenApiDocumentService.GetOpenApiDocumentAsync(IServiceProvider scopedServiceProvider, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Builder.OpenApiEndpointRouteBuilderExtensions.<>c__DisplayClass0_0.<<MapOpenApi>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Http.Generated.<GeneratedRouteBuilderExtensions_g>F56B68D2B55B5B7B373BA2E4796D897848BC0F04A969B1AF6260183E8B9E0BAF2__GeneratedRouteBuilderExtensionsCore.<>c__DisplayClass2_0.<<MapGet0>g__RequestHandler|5>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at AdvancedLINQApiShowcase.Middleware.ExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Users\Ceku\source\repos\AdvancedLINQApiShowcase\AdvancedLINQApiShowcase\Middleware\ExceptionMiddleware.cs:line 22
+2025-01-24 02:32:40.559 +03:00 [INF] Starting the application...
