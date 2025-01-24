@@ -32,6 +32,13 @@ builder.Host.UseSerilog();
 builder.Services.AddDbContext<AppDbContext>(options =>
  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Redis cache conf
+builder.Services.AddStackExchangeRedisCache(option =>
+{
+    option.Configuration = builder.Configuration.GetConnectionString("Redis");
+    option.InstanceName = nameof(AppDbContext);
+});
+
 
 // Authentication conf
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -95,6 +102,7 @@ app.UseAuthorization();
 app.MapFallback(() => Results.Redirect("/swagger"));
 
 app.MapControllers();
+
 try
 {
     Log.Information("Starting the application...");
