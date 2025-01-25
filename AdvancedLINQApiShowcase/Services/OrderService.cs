@@ -1,4 +1,5 @@
-﻿using AdvancedLINQApiShowcase.DataAccess;
+﻿using AdvancedLINQApiShowcase.Caching;
+using AdvancedLINQApiShowcase.DataAccess;
 using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,21 +9,55 @@ namespace AdvancedLINQApiShowcase.Services
     public class OrderService : IOrderService
     {
         private readonly AppDbContext _context;
+        private readonly ICacheService _cache;
 
-        public OrderService(AppDbContext context)
+
+        public OrderService(AppDbContext context,ICacheService cache)
         {
-            _context = context;
+            this._context = context;
+            this._cache = cache;
         }
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            return await _context.Orders.ToListAsync();
+            const string cacheKey = "GetAllOrders";
+            
+            var cachedOrders = _cache.GetData<IEnumerable<Order>>(cacheKey);
+
+            if (cachedOrders is not null)
+            {
+                return cachedOrders; 
+            }           
+            var orders = await _context.Orders.ToListAsync();
+
+            if (orders.Any())
+            {
+                _cache.SetData(cacheKey, orders);
+            }
+            return orders;
         }
+
 
         public async Task<Order> GetOrderByIdAsync(int id)
         {
-            return await _context.Orders.FindAsync(id);
+            string cacheKey = $"Order_{id}"; 
+
+            var cachedOrder = _cache.GetData<Order>(cacheKey);
+
+            if (cachedOrder is not null)
+            {
+                return cachedOrder; 
+            }                      
+
+            var order = await _context.Orders.FindAsync(id);
+
+            if (order is not null)
+            {               
+                _cache.SetData(cacheKey, order);
+            }
+            return order;
         }
+
         public async Task AddOrderAsync(Order order)
         {
             await _context.Orders.AddAsync(order);

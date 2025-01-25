@@ -1,28 +1,64 @@
-﻿using AdvancedLINQApiShowcase.DataAccess;
+﻿using AdvancedLINQApiShowcase.Caching;
+using AdvancedLINQApiShowcase.DataAccess;
 using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace AdvancedLINQApiShowcase.Services
 {
     public class CustomerService : ICustomerService
     {
         private readonly AppDbContext _context;
+        private readonly ICacheService _cache;
 
-        public CustomerService(AppDbContext context)
+
+        public CustomerService(AppDbContext context, ICacheService cache)
         {
-            _context = context;
+            this._context = context;
+            this._cache = cache;
         }
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
-            return await _context.Customers.ToListAsync();
+            const string cacheKey = "GetAllCustomers";
+
+            var cachedCustomers = _cache.GetData<IEnumerable<Customer>>(cacheKey);
+
+            if (cachedCustomers is not null)
+            {
+                return cachedCustomers;
+            }
+
+            var customers = await _context.Customers.ToListAsync();
+
+            if (customers.Any())
+            {
+                _cache.SetData(cacheKey, customers);
+            }
+            return customers;
         }
 
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
-            return await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
+            string cacheKey = $"Customer_{id}"; 
+           
+            var cachedCustomer = _cache.GetData<Customer>(cacheKey);
+
+            if (cachedCustomer is not null)
+            {
+                return cachedCustomer; 
+            }
+
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (customer is not null)
+            {
+                _cache.SetData(cacheKey, customer);
+            }
+            return customer;
         }
+
         public async Task AddCustomerAsync(Customer customer)
         {
             await _context.Customers.AddAsync(customer);
