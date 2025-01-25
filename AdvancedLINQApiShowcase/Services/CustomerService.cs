@@ -12,51 +12,75 @@ namespace AdvancedLINQApiShowcase.Services
     {
         private readonly AppDbContext _context;
         private readonly ICacheService _cache;
+        private readonly ILogger<CustomerService> _logger;
 
 
-        public CustomerService(AppDbContext context, ICacheService cache)
+        public CustomerService(AppDbContext context, ICacheService cache, ILogger<CustomerService> logger)
         {
             this._context = context;
             this._cache = cache;
+            this._logger = logger;
         }
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
-            const string cacheKey = "GetAllCustomers";
-
-            var cachedCustomers = _cache.GetData<IEnumerable<Customer>>(cacheKey);
-
-            if (cachedCustomers is not null)
+            try
             {
-                return cachedCustomers;
+                const string cacheKey = "AllCustomers";
+
+                var cachedCustomers = _cache.GetData<IEnumerable<Customer>>(cacheKey);
+
+                if (cachedCustomers is not null)
+                {
+                    _logger.LogInformation("Cache hit for all customers.");
+                    return cachedCustomers;
+                }
+
+                _logger.LogInformation("Cache miss for all customers. Retrieving from database.");
+
+                var customers = await _context.Customers.ToListAsync();
+
+                if (customers.Any())
+                {
+                    _cache.SetData(cacheKey, customers);
+                }
+                return customers;
             }
-
-            var customers = await _context.Customers.ToListAsync();
-
-            if (customers.Any())
+            catch (Exception ex)
             {
-                _cache.SetData(cacheKey, customers);
+                _logger.LogError(ex, "An error occurred while retrieving all customers.");
+                throw;
             }
-            return customers;
+          
         }
 
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
-            string cacheKey = $"Customer_{id}"; 
-           
-            var cachedCustomer = _cache.GetData<Customer>(cacheKey);
-
-            if (cachedCustomer is not null)
+            try
             {
-                return cachedCustomer; 
+                string cacheKey = $"Customer_{id}";
+                var cachedCustomer = _cache.GetData<Customer>(cacheKey);
+
+                if (cachedCustomer is not null)
+                {
+                    _logger.LogInformation($"Cache hit for customer {id}.");
+                    return cachedCustomer;
+                }
+
+                _logger.LogInformation($"Cache miss for customer {id}. Retrieving from database.");
+                var customer = await _context.Customers.FindAsync(id);
+
+                if (customer is not null)
+                {
+                    _cache.SetData(cacheKey, customer);
+                }
+                return customer;
             }
-
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Id == id);
-
-            if (customer is not null)
+            catch (Exception ex)
             {
-                _cache.SetData(cacheKey, customer);
+                _logger.LogError(ex, $"An error occurred while retrieving the customer with ID {id}.");
+                throw;
             }
-            return customer;
+            
         }
 
         public async Task AddCustomerAsync(Customer customer)

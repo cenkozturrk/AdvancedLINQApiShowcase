@@ -56,3 +56,50 @@
 2025-01-25 06:56:49.340 +03:00 [INF] Fetching all customers
 2025-01-25 06:56:53.202 +03:00 [WRN] Cache miss for key: GetAllCustomers
 2025-01-25 06:57:04.881 +03:00 [INF] Data cached for key: GetAllCustomers, expires in 5 minutes
+2025-01-25 07:27:00.708 +03:00 [INF] Starting the application...
+2025-01-25 07:27:17.753 +03:00 [INF] Fetching all orders
+2025-01-25 07:27:22.209 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-25 07:27:26.860 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-25 07:27:30.759 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
+2025-01-25 07:28:09.237 +03:00 [INF] Fetching order by id
+2025-01-25 07:28:09.238 +03:00 [WRN] Cache miss for key: Order_3
+2025-01-25 07:28:09.239 +03:00 [INF] Cache miss for order 3. Retrieving from database.
+2025-01-25 07:28:13.410 +03:00 [INF] Fetching order by id
+2025-01-25 07:28:13.412 +03:00 [WRN] Cache miss for key: Order_2
+2025-01-25 07:28:13.412 +03:00 [INF] Cache miss for order 2. Retrieving from database.
+2025-01-25 07:28:24.989 +03:00 [INF] Fetching order by id
+2025-01-25 07:28:24.990 +03:00 [WRN] Cache miss for key: Order_2
+2025-01-25 07:28:24.990 +03:00 [INF] Cache miss for order 2. Retrieving from database.
+2025-01-25 07:28:33.221 +03:00 [INF] Fetching order by id
+2025-01-25 07:28:33.222 +03:00 [WRN] Cache miss for key: Order_5
+2025-01-25 07:28:33.222 +03:00 [INF] Cache miss for order 5. Retrieving from database.
+2025-01-25 07:28:47.055 +03:00 [INF] Fetching all orders
+2025-01-25 07:28:49.052 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-25 07:28:49.057 +03:00 [INF] Cache hit for all orders.
+2025-01-25 07:29:01.666 +03:00 [INF] Fetching order by id
+2025-01-25 07:29:01.667 +03:00 [WRN] Cache miss for key: Order_7
+2025-01-25 07:29:01.667 +03:00 [INF] Cache miss for order 7. Retrieving from database.
+2025-01-25 07:29:01.670 +03:00 [INF] Data cached for key: Order_7, expires in 5 minutes
+2025-01-25 07:29:09.911 +03:00 [INF] Fetching order by id
+2025-01-25 07:29:09.912 +03:00 [INF] Cache hit for key: Order_7
+2025-01-25 07:29:09.912 +03:00 [INF] Cache hit for order 7.
+2025-01-25 07:29:17.070 +03:00 [INF] Fetching order by id
+2025-01-25 07:29:19.887 +03:00 [INF] Cache hit for key: Order_7
+2025-01-25 07:29:20.636 +03:00 [INF] Cache hit for order 7.
+2025-01-25 08:16:19.372 +03:00 [INF] Starting the application...
+2025-01-25 08:16:26.853 +03:00 [INF] Fetching all customers
+2025-01-25 08:16:27.910 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-25 08:16:27.911 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-25 08:16:28.932 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-25 08:16:35.271 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-25 08:16:37.576 +03:00 [INF] Cache hit for all customers.
+2025-01-25 08:16:47.872 +03:00 [INF] Fetching all customers
+2025-01-25 08:16:49.390 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-25 08:16:49.390 +03:00 [INF] Cache hit for all customers.
+2025-01-25 08:17:06.810 +03:00 [INF] Fetching customer by id
+2025-01-25 08:17:09.964 +03:00 [WRN] Cache miss for key: Customer_2
+2025-01-25 08:17:12.952 +03:00 [INF] Cache miss for customer 2. Retrieving from database.
+2025-01-25 08:17:14.265 +03:00 [INF] Data cached for key: Customer_2, expires in 5 minutes
+2025-01-25 08:17:23.618 +03:00 [INF] Fetching customer by id
+2025-01-25 08:17:25.405 +03:00 [INF] Cache hit for key: Customer_2
+2025-01-25 08:17:26.427 +03:00 [INF] Cache hit for customer 2.
