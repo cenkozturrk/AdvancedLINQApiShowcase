@@ -10,10 +10,10 @@ namespace AdvancedLINQApiShowcase.Services
     {
         private readonly AppDbContext _context;
         private readonly ICacheService _cache;
-        private readonly ILogger<OrderService> _logger;
+        private readonly ILogger<OrderService>? _logger;
 
 
-        public OrderService(AppDbContext context,ICacheService cache,ILogger<OrderService> logger)
+        public OrderService(AppDbContext context,ICacheService cache,ILogger<OrderService>? logger)
         {
             this._context = context;
             this._cache = cache;
