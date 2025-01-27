@@ -1,4 +1,5 @@
 ﻿using AdvancedLINQApiShowcase.Models;
+using AdvancedLINQApiShowcase.Pagination;
 
 namespace AdvancedLINQApiShowcase.Interfaces
 {
@@ -9,5 +10,7 @@ namespace AdvancedLINQApiShowcase.Interfaces
         Task AddOrderAsync(Order order);
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(int id);
+        Task<PaginatedResult<Order>> GetOrdersAsync(PaginationFilter filter);
+
     }
 }

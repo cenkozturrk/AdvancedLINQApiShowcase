@@ -1,5 +1,6 @@
 ﻿using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
+using AdvancedLINQApiShowcase.Pagination;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,6 @@ namespace AdvancedLINQApiShowcase.Controllers
             this._logger = logger;
         }
 
-        // GET: api/Order
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
@@ -54,7 +54,6 @@ namespace AdvancedLINQApiShowcase.Controllers
             return Ok(order);
         }
 
-        // POST: api/Order
         // Keeping an extensive detailed log(CreateOrder)
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] Order order)
@@ -96,9 +95,6 @@ namespace AdvancedLINQApiShowcase.Controllers
             }
         }
 
-
-
-        // PUT: api/Order
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order)
         {
@@ -110,7 +106,6 @@ namespace AdvancedLINQApiShowcase.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Order
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -119,6 +114,14 @@ namespace AdvancedLINQApiShowcase.Controllers
             await _orderService.DeleteOrderAsync(id);
             return NoContent();
         }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetOrdersAsync([FromQuery] PaginationFilter filter)
+        {
+            var result = await _orderService.GetOrdersAsync(filter);
+            return Ok(result);
+        }
+
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AdvancedLINQApiShowcase.Models;
+using AdvancedLINQApiShowcase.Pagination;
 
 namespace AdvancedLINQApiShowcase.Interfaces
 {
@@ -9,6 +10,6 @@ namespace AdvancedLINQApiShowcase.Interfaces
         Task AddCustomerAsync(Customer customer);
         Task UpdateCustomerAsync(Customer customer);
         Task DeleteCustomerByIdAsync(int id);
-        
+        Task<PaginatedResult<Customer>> GetCustomerAsync(PaginationFilter filter);
     }
 }

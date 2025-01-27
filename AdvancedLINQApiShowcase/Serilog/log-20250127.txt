@@ -3,3 +3,16 @@
 2025-01-27 02:21:36.112 +03:00 [WRN] Cache miss for key: AllOrders
 2025-01-27 02:21:36.116 +03:00 [INF] Cache miss for all orders. Retrieving from database.
 2025-01-27 02:21:37.512 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
+2025-01-27 22:36:41.869 +03:00 [INF] Starting the application...
+2025-01-27 22:37:03.286 +03:00 [INF] Fetching all orders
+2025-01-27 22:37:03.532 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-27 22:37:03.539 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-27 22:37:04.520 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
+2025-01-27 23:46:03.898 +03:00 [INF] Starting the application...
+2025-01-27 23:53:00.986 +03:00 [INF] Starting the application...
+2025-01-27 23:53:09.361 +03:00 [INF] Starting the application...
+2025-01-27 23:58:04.598 +03:00 [INF] Starting the application...
+2025-01-27 23:58:30.981 +03:00 [INF] Fetching all orders
+2025-01-27 23:58:31.343 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-27 23:58:31.344 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-27 23:58:32.605 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes

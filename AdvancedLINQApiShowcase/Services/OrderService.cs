@@ -2,6 +2,7 @@
 using AdvancedLINQApiShowcase.DataAccess;
 using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
+using AdvancedLINQApiShowcase.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdvancedLINQApiShowcase.Services
@@ -11,15 +12,12 @@ namespace AdvancedLINQApiShowcase.Services
         private readonly AppDbContext _context;
         private readonly ICacheService _cache;
         private readonly ILogger<OrderService> _logger;
-
-
-        public OrderService(AppDbContext context,ICacheService cache,ILogger<OrderService> logger)
+        public OrderService(AppDbContext context, ICacheService cache, ILogger<OrderService> logger)
         {
             this._context = context;
             this._cache = cache;
             this._logger = logger;
         }
-
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             try
@@ -45,12 +43,9 @@ namespace AdvancedLINQApiShowcase.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while retrieving all orders.");
-                throw; 
+                throw;
             }
         }
-
-
-
         public async Task<Order?> GetOrderByIdAsync(int id)
         {
             try
@@ -79,8 +74,6 @@ namespace AdvancedLINQApiShowcase.Services
                 throw;
             }
         }
-
-
         public async Task AddOrderAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
@@ -106,7 +99,37 @@ namespace AdvancedLINQApiShowcase.Services
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<PaginatedResult<Order>> GetOrdersAsync(PaginationFilter filter)
+        {
+            var query = _context.Orders.AsQueryable();
 
-        
+            if (!string.IsNullOrEmpty(filter.SearchQuery))
+                query = query.Where(o => o.Name.Contains(filter.SearchQuery));
+
+
+            if (!string.IsNullOrEmpty(filter.SortBy))
+            {
+                var propertyInfo = typeof(Order).GetProperty(filter.SortBy);
+                if (propertyInfo != null)
+                    query = filter.IsDescending
+                    ? query.OrderByDescending(e => EF.Property<object>(e, filter.SortBy))
+                    : query.OrderBy(e => EF.Property<object>(e, filter.SortBy));
+
+            }
+            var totalRecords = await query.CountAsync();
+
+            var data = await query
+               .Skip((filter.PageNumber - 1) * filter.PageSize)
+               .Take(filter.PageSize)
+               .ToListAsync();
+
+            return new PaginatedResult<Order>
+            {
+                Data = data,
+                TotalRecords = totalRecords,
+                PageSize = filter.PageSize,
+                CurrentPage = filter.PageNumber
+            };
+        }
     }
 }
