@@ -1,5 +1,6 @@
 ﻿using AdvancedLINQApiShowcase.Caching;
 using AdvancedLINQApiShowcase.DataAccess;
+using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
 using AdvancedLINQApiShowcase.Services;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,6 @@ namespace UnitTest
         public async Task GetAllOrderAsync_Returns_OrdersFromCache_WhenCacheExists()
         {
             // Arrange field
-
             var cachedOrders = new List<Order>()
             {
                 new Order { Id = 1, Name = "Order 1" },
@@ -42,15 +42,12 @@ namespace UnitTest
             var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
 
             // Act field
-
             var result = await orderService.GetAllOrdersAsync();
 
             // Assert field
-
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             _mockCacheService.Verify(c => c.GetData<IEnumerable<Order>>("Orders"), Times.Once);
-
         }
 
         [Fact]
@@ -73,7 +70,7 @@ namespace UnitTest
 
             _mockContext.Setup(db => db.Set<Order>()).Returns(_mockOrderSet.Object);
 
-            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object,null);
+            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
 
             // Act
             var result = await orderService.GetAllOrdersAsync();
@@ -85,5 +82,168 @@ namespace UnitTest
             _mockCacheService.Verify(c => c.SetData("Orders", dbOrders), Times.Once);
             _mockContext.Verify(db => db.Set<Order>(), Times.Once);
         }
+        [Fact]
+        public async Task GetOrderByIdAsync_ReturnsOrderFromCache_WhenCacheExists()
+        {
+            // Arrange
+            var cachedOrder = new Order { Id = 1, Name = "Order 1" };
+
+            _mockCacheService.Setup(c => c.GetData<Order>("Order_1"))
+                             .Returns(cachedOrder);
+
+            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
+
+            // Act
+            var result = await orderService.GetOrderByIdAsync(1);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
+            Assert.Equal("Order 1", result.Name);
+            _mockCacheService.Verify(c => c.GetData<Order>("Order_1"), Times.Once);
+            _mockContext.Verify(db => db.Set<Order>(), Times.Never); // Ensure DB was not queried
+        }
+
+        [Fact]
+        public async Task GetOrderByIdAsync_ReturnsOrderFromDbAndCaches_WhenCacheMiss()
+        {
+            // Arrange
+            var dbOrder = new Order { Id = 1, Name = "Order 1" };
+
+            _mockCacheService.Setup(c => c.GetData<Order>("Order_1"))
+                             .Returns((Order)null); 
+
+            _mockOrderSet.Setup(m => m.FindAsync(1)).ReturnsAsync(dbOrder);
+            _mockContext.Setup(db => db.Set<Order>()).Returns(_mockOrderSet.Object);
+
+            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
+
+            // Act
+            var result = await orderService.GetOrderByIdAsync(1);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
+            Assert.Equal("Order 1", result.Name);
+            _mockCacheService.Verify(c => c.GetData<Order>("Order_1"), Times.Once);
+            _mockCacheService.Verify(c => c.SetData("Order_1", dbOrder), Times.Once); 
+            _mockContext.Verify(db => db.Set<Order>(), Times.Once); 
+        }
+
+        [Fact]
+        public async Task CreateOrderAsync_ShouldAddOrderToDbAndCache()
+        {
+            // Arrange
+            var newOrder = new Order
+            {
+                Id = 3,
+                Name = "Order 3",
+                OrderDate = DateTime.Now,
+                CustomerId = 1
+            };
+
+            // Mock DB Context to simulate the 'Add' method behavior
+            var dbOrders = new List<Order> { newOrder }.AsQueryable();
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Provider).Returns(dbOrders.Provider);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Expression).Returns(dbOrders.Expression);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.ElementType).Returns(dbOrders.ElementType);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.GetEnumerator()).Returns(dbOrders.GetEnumerator());
+
+            _mockContext.Setup(db => db.Set<Order>()).Returns(_mockOrderSet.Object);
+
+            // Mock Cache to simulate setting data
+            _mockCacheService.Setup(c => c.SetData("Orders", It.IsAny<IEnumerable<Order>>()))
+                             .Verifiable();
+
+            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
+
+            // Act
+            await orderService.AddOrderAsync(newOrder);
+
+            // Assert
+            _mockCacheService.Verify(c => c.SetData("Orders", It.IsAny<IEnumerable<Order>>()), Times.Once);
+            _mockContext.Verify(db => db.Set<Order>(), Times.Once);
+        }
+        [Fact]
+        public async Task UpdateOrderAsync_ShouldUpdateOrderInDbAndCache()
+        {
+            // Arrange
+            var existingOrder = new Order
+            {
+                Id = 1,
+                Name = "Order 1",
+                OrderDate = DateTime.Now,
+                CustomerId = 1
+            };
+
+            var updatedOrder = new Order
+            {
+                Id = 1,
+                Name = "Updated Order 1",
+                OrderDate = DateTime.Now,
+                CustomerId = 1
+            };
+
+            // Mock DB Context to simulate fetching the existing order
+            var dbOrders = new List<Order> { existingOrder }.AsQueryable();
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Provider).Returns(dbOrders.Provider);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Expression).Returns(dbOrders.Expression);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.ElementType).Returns(dbOrders.ElementType);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.GetEnumerator()).Returns(dbOrders.GetEnumerator());
+
+            _mockContext.Setup(db => db.Set<Order>()).Returns(_mockOrderSet.Object);
+
+            // Mock Cache service to ensure the order gets updated in the cache
+            _mockCacheService.Setup(c => c.SetData("Orders", It.IsAny<IEnumerable<Order>>()))
+                             .Verifiable(); // Verifies the cache Set method is called
+
+            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
+
+            // Act
+            await orderService.UpdateOrderAsync(updatedOrder);
+
+            // Assert
+            _mockContext.Verify(db => db.Set<Order>(), Times.Once);
+            _mockCacheService.Verify(c => c.SetData("Orders", It.IsAny<IEnumerable<Order>>()), Times.Once);
+            Assert.Equal("Updated Order 1", updatedOrder.Name);
+        }
+        [Fact]
+        public async Task DeleteOrderAsync_ShouldDeleteOrderFromDbAndRefreshCache()
+        {
+            // Arrange
+            var orderToDelete = new Order
+            {
+                Id = 1,
+                Name = "Order to Delete",
+                OrderDate = DateTime.Now,
+                CustomerId = 1
+            };
+
+            var dbOrders = new List<Order> { orderToDelete }.AsQueryable();
+
+            // Mock DB Context to simulate fetching the order
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Provider).Returns(dbOrders.Provider);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Expression).Returns(dbOrders.Expression);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.ElementType).Returns(dbOrders.ElementType);
+            _mockOrderSet.As<IQueryable<Order>>().Setup(m => m.GetEnumerator()).Returns(dbOrders.GetEnumerator());
+
+            _mockContext.Setup(db => db.Set<Order>()).Returns(_mockOrderSet.Object);
+
+            // Mock cache refresh 
+            _mockCacheService.Setup(c => c.SetData("Orders", It.IsAny<IEnumerable<Order>>())).Verifiable(); // Verify that SetData is called
+
+            var orderService = new OrderService(_mockContext.Object, _mockCacheService.Object, null);
+
+            // Act
+            await orderService.DeleteOrderAsync(orderToDelete.Id);
+
+            // Assert
+            _mockContext.Verify(db => db.Set<Order>(), Times.Once); // Verify the DB context is used
+            _mockCacheService.Verify(c => c.SetData("Orders", It.IsAny<IEnumerable<Order>>()), Times.Once); // Verify cache refresh (setting the data)
+            _mockContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once); // Verify SaveChangesAsync was called to persist the changes in the database
+        }
+
+
     }
+
 }

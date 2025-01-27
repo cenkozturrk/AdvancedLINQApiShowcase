@@ -1,0 +1,5 @@
+2025-01-27 02:21:02.051 +03:00 [INF] Starting the application...
+2025-01-27 02:21:35.852 +03:00 [INF] Fetching all orders
+2025-01-27 02:21:36.112 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-27 02:21:36.116 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-27 02:21:37.512 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
