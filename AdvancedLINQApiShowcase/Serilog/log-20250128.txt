@@ -528,3 +528,99 @@ System.InvalidOperationException: There is already an open DataReader associated
 2025-01-28 01:20:00.992 +03:00 [INF] Starting the application...
 2025-01-28 01:23:18.040 +03:00 [INF] Starting the application...
 2025-01-28 01:27:01.892 +03:00 [INF] Starting the application...
+2025-01-28 19:59:31.508 +03:00 [INF] Starting the application...
+2025-01-28 20:05:05.298 +03:00 [INF] Fetching all customers
+2025-01-28 20:05:14.730 +03:00 [ERR] An error occurred while retrieving all customers.
+StackExchange.Redis.RedisConnectionException: The message timed out in the backlog attempting to send because no connection became available (5000ms) - Last Connection Exception: UnableToConnect on 127.0.0.1:6379/Interactive, Initializing/NotStarted, last: NONE, origin: BeginConnectAsync, outstanding: 0, last-read: 2s ago, last-write: 2s ago, keep-alive: 60s, state: Connecting, mgr: 10 of 10 available, last-heartbeat: never, global: 2s ago, v: 2.8.24.3255, command=HMGET, timeout: 5000, inst: 0, qu: 0, qs: 0, aw: False, bw: SpinningDown, rs: NotStarted, ws: Idle, in: 0, last-in: 0, cur-in: 0, sync-ops: 1, async-ops: 0, serverEndpoint: 127.0.0.1:6379, conn-sec: n/a, aoc: 0, mc: 1/1/0, mgr: 10 of 10 available, clientName: CEKU(SE.Redis-v2.8.24.3255), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=1,Free=32766,Min=20,Max=32767), POOL: (Threads=6,QueuedItems=0,CompletedItems=105,Timers=5), v: 2.8.24.3255 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+ ---> StackExchange.Redis.RedisConnectionException: UnableToConnect on 127.0.0.1:6379/Interactive, Initializing/NotStarted, last: NONE, origin: BeginConnectAsync, outstanding: 0, last-read: 2s ago, last-write: 2s ago, keep-alive: 60s, state: Connecting, mgr: 10 of 10 available, last-heartbeat: never, global: 2s ago, v: 2.8.24.3255
+   --- End of inner exception stack trace ---
+   at StackExchange.Redis.ConnectionMultiplexer.ExecuteSyncImpl[T](Message message, ResultProcessor`1 processor, ServerEndPoint server, T defaultValue) in /_/src/StackExchange.Redis/ConnectionMultiplexer.cs:line 2099
+   at StackExchange.Redis.RedisBase.ExecuteSync[T](Message message, ResultProcessor`1 processor, ServerEndPoint server, T defaultValue) in /_/src/StackExchange.Redis/RedisBase.cs:line 62
+   at StackExchange.Redis.RedisDatabase.HashGet(RedisKey key, RedisValue[] hashFields, CommandFlags flags) in /_/src/StackExchange.Redis/RedisDatabase.cs:line 484
+   at Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache.GetAndRefresh(String key, Boolean getData)
+   at Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache.Get(String key)
+   at Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.GetString(IDistributedCache cache, String key)
+   at AdvancedLINQApiShowcase.Caching.CacheService.GetData[T](String key) in C:\Users\Ceku\source\repos\AdvancedLINQApiShowcase\AdvancedLINQApiShowcase\Caching\CacheService.cs:line 20
+   at AdvancedLINQApiShowcase.Services.CustomerService.GetAllCustomersAsync() in C:\Users\Ceku\source\repos\AdvancedLINQApiShowcase\AdvancedLINQApiShowcase\Services\CustomerService.cs:line 29
+2025-01-28 20:06:06.280 +03:00 [INF] Starting the application...
+2025-01-28 20:06:13.691 +03:00 [INF] Fetching all customers
+2025-01-28 20:06:13.819 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-28 20:06:13.820 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-28 20:06:14.814 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-28 20:13:46.729 +03:00 [INF] Starting the application...
+2025-01-28 20:13:59.064 +03:00 [INF] Starting the application...
+2025-01-28 20:14:04.119 +03:00 [INF] Fetching all customers
+2025-01-28 20:14:04.406 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-28 20:14:04.407 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-28 20:14:05.458 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-28 20:15:01.904 +03:00 [INF] Fetching all customers
+2025-01-28 20:15:01.911 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-28 20:15:01.915 +03:00 [INF] Cache hit for all customers.
+2025-01-28 20:21:07.750 +03:00 [INF] Starting the application...
+2025-01-28 20:21:12.695 +03:00 [INF] Fetching all customers from the database
+2025-01-28 20:21:12.843 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-28 20:21:12.843 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-28 20:21:13.899 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-28 20:23:05.281 +03:00 [INF] Starting the application...
+2025-01-28 20:27:47.885 +03:00 [INF] Fetching all customers from the database
+2025-01-28 20:27:55.481 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-28 20:27:59.218 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-28 20:28:05.059 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-28 20:29:07.924 +03:00 [INF] Starting the application...
+2025-01-28 20:31:57.369 +03:00 [INF] Fetching customer by id
+2025-01-28 20:31:57.516 +03:00 [WRN] Cache miss for key: Customer_2
+2025-01-28 20:31:57.517 +03:00 [INF] Cache miss for customer 2. Retrieving from database.
+2025-01-28 20:31:58.438 +03:00 [INF] Data cached for key: Customer_2, expires in 5 minutes
+2025-01-28 20:32:51.579 +03:00 [INF] Fetching customer by id
+2025-01-28 20:32:51.583 +03:00 [INF] Cache hit for key: Customer_2
+2025-01-28 20:32:51.589 +03:00 [INF] Cache hit for customer 2.
+2025-01-28 20:33:25.540 +03:00 [INF] Starting the application...
+2025-01-28 20:33:36.516 +03:00 [INF] Fetching customer by id
+2025-01-28 20:33:43.433 +03:00 [INF] Cache hit for key: Customer_2
+2025-01-28 20:33:50.348 +03:00 [INF] Cache hit for customer 2.
+2025-01-28 20:53:28.615 +03:00 [INF] Starting the application...
+2025-01-28 20:59:05.806 +03:00 [INF] Starting the application...
+2025-01-28 21:02:22.757 +03:00 [INF] Adding new customer with name: John Doe
+2025-01-28 21:02:27.336 +03:00 [INF] Customer with ID 5 created successfully.
+2025-01-28 21:02:42.233 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:02:42.587 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-28 21:02:42.587 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-28 21:02:42.760 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-28 21:07:47.975 +03:00 [INF] Starting the application...
+2025-01-28 21:08:43.543 +03:00 [INF] Adding new customer with name: new customer x
+2025-01-28 21:08:47.006 +03:00 [INF] Customer with ID 6 created successfully.
+2025-01-28 21:22:36.597 +03:00 [INF] Starting the application...
+2025-01-28 21:25:22.159 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:25:22.526 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-28 21:25:22.527 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-28 21:25:23.401 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-28 21:26:25.209 +03:00 [INF] Updating existing Customer
+2025-01-28 21:26:33.562 +03:00 [INF] Updating customer with ID 6 and Name Updated Customer Name
+2025-01-28 21:26:35.302 +03:00 [INF] Successfully updated customer with ID 6.
+2025-01-28 21:26:56.225 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:26:56.228 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-28 21:26:56.230 +03:00 [INF] Cache hit for all customers.
+2025-01-28 21:27:33.373 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:27:33.374 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-28 21:27:33.375 +03:00 [INF] Cache hit for all customers.
+2025-01-28 21:27:41.954 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:27:41.955 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-28 21:27:41.955 +03:00 [INF] Cache hit for all customers.
+2025-01-28 21:28:43.451 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:28:43.452 +03:00 [INF] Cache hit for key: AllCustomers
+2025-01-28 21:28:43.453 +03:00 [INF] Cache hit for all customers.
+2025-01-28 21:33:44.194 +03:00 [INF] Updating existing Customer
+2025-01-28 21:33:45.969 +03:00 [INF] Updating customer with ID 6 and Name changed new yeee
+2025-01-28 21:33:45.975 +03:00 [INF] Successfully updated customer with ID 6.
+2025-01-28 21:41:32.471 +03:00 [INF] Starting the application...
+2025-01-28 21:46:09.310 +03:00 [INF] Attempting to delete customer with ID: 6
+2025-01-28 21:46:17.667 +03:00 [INF] Transaction aecbd00c-b2ce-4a47-bd9a-4129e340b6af started: Deleting customer with ID: 6
+2025-01-28 21:46:27.778 +03:00 [INF] Customer found: Deleting customer with ID 6
+2025-01-28 21:46:33.406 +03:00 [INF] Transaction aecbd00c-b2ce-4a47-bd9a-4129e340b6af succeeded: Customer with ID 6 deleted successfully.
+2025-01-28 21:47:24.502 +03:00 [INF] Customer with ID 6 deleted successfully.
+2025-01-28 21:49:17.726 +03:00 [INF] Starting the application...
+2025-01-28 21:49:51.172 +03:00 [INF] Starting the application...
+2025-01-28 21:50:20.173 +03:00 [INF] Fetching all customers from the database
+2025-01-28 21:59:10.266 +03:00 [INF] Starting the application...
+2025-01-28 22:00:16.386 +03:00 [INF] Starting the application...
+2025-01-28 22:00:30.911 +03:00 [INF] Fetching all customers from the database
