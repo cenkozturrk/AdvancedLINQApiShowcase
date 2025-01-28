@@ -162,7 +162,6 @@ namespace AdvancedLINQApiShowcase.Services
             }         
           
         }
-
         public async Task<PaginatedResult<Customer>> GetCustomerAsync(PaginationFilter filter)
         {
             _logger.LogInformation("Fetching all customers from the database");
@@ -175,7 +174,7 @@ namespace AdvancedLINQApiShowcase.Services
             if (!string.IsNullOrEmpty(filter.SortBy))
             {
                 var propertyInfo = typeof(Customer).GetProperty(filter.SortBy);
-                if (propertyInfo != null)                
+                if (propertyInfo is not null)                
                     query = filter.IsDescending
                         ? query.OrderByDescending(c => EF.Property<object>(c, filter.SortBy))
                         : query.OrderBy(c => EF.Property<object>(c, filter.SortBy));                

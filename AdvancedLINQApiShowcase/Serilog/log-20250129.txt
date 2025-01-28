@@ -1,0 +1,50 @@
+2025-01-29 00:02:49.058 +03:00 [INF] Starting the application...
+2025-01-29 00:03:09.417 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:03:09.682 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-29 00:03:09.693 +03:00 [INF] Cache hit for all orders.
+2025-01-29 00:03:24.935 +03:00 [INF] Fetching order by id
+2025-01-29 00:03:24.936 +03:00 [WRN] Cache miss for key: Order_8
+2025-01-29 00:03:24.936 +03:00 [INF] Cache miss for order 8. Retrieving from database.
+2025-01-29 00:03:25.866 +03:00 [INF] Data cached for key: Order_8, expires in 5 minutes
+2025-01-29 00:08:33.741 +03:00 [INF] Starting the application...
+2025-01-29 00:08:51.577 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:08:51.961 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-29 00:08:51.961 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-29 00:08:52.966 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
+2025-01-29 00:09:01.294 +03:00 [INF] Fetching order by id
+2025-01-29 00:09:01.295 +03:00 [WRN] Cache miss for key: Order_7
+2025-01-29 00:09:01.295 +03:00 [INF] Cache miss for order 7. Retrieving from database.
+2025-01-29 00:09:01.356 +03:00 [INF] Data cached for key: Order_7, expires in 5 minutes
+2025-01-29 00:09:47.753 +03:00 [INF] Adding a new Order.
+2025-01-29 00:10:00.335 +03:00 [INF] Adding new order with name: Order Name Example
+2025-01-29 00:10:01.824 +03:00 [INF] Order with ID 10 created successfully.
+2025-01-29 00:10:19.508 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:10:19.511 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-29 00:10:19.513 +03:00 [INF] Cache hit for all orders.
+2025-01-29 00:10:33.334 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:10:33.335 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-29 00:10:33.335 +03:00 [INF] Cache hit for all orders.
+2025-01-29 00:10:33.840 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:10:33.841 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-29 00:10:33.841 +03:00 [INF] Cache hit for all orders.
+2025-01-29 00:10:34.247 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:10:34.247 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-29 00:10:34.248 +03:00 [INF] Cache hit for all orders.
+2025-01-29 00:14:58.993 +03:00 [INF] Starting the application...
+2025-01-29 00:16:04.699 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:16:04.994 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-29 00:16:04.995 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-29 00:16:05.809 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
+2025-01-29 00:16:23.106 +03:00 [INF] Updating existing Order
+2025-01-29 00:16:28.813 +03:00 [INF] Updating order with ID 10 and Name Updated Order Name
+2025-01-29 00:16:29.701 +03:00 [INF] Successfully updated order with ID 10.
+2025-01-29 00:16:45.733 +03:00 [INF] Updating existing Order
+2025-01-29 00:16:45.787 +03:00 [INF] Updating order with ID 10 and Name Updated Order Namessss
+2025-01-29 00:16:45.791 +03:00 [INF] Successfully updated order with ID 10.
+2025-01-29 00:22:53.180 +03:00 [INF] Starting the application...
+2025-01-29 00:23:14.787 +03:00 [INF] Attempting to delete order with ID: 10
+2025-01-29 00:23:22.623 +03:00 [INF] Transaction d6b85e5f-31fa-48fe-ba9a-ee0813b98575 started: Deleting order with ID: 10
+2025-01-29 00:23:28.619 +03:00 [INF] Order found: Deleting order with ID 10
+2025-01-29 00:23:30.498 +03:00 [INF] Transaction d6b85e5f-31fa-48fe-ba9a-ee0813b98575 succeeded: Order with ID 10 deleted successfully.
+2025-01-29 00:23:31.097 +03:00 [INF] Order with ID 10 deleted successfully.
+2025-01-29 00:24:15.300 +03:00 [INF] Fetching all orders from the database

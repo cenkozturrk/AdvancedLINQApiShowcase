@@ -3,6 +3,7 @@ using AdvancedLINQApiShowcase.DataAccess;
 using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
 using AdvancedLINQApiShowcase.Pagination;
+using Castle.Core.Resource;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdvancedLINQApiShowcase.Services
@@ -20,6 +21,8 @@ namespace AdvancedLINQApiShowcase.Services
         }
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
+            _logger.LogInformation("Fetching all orders from the database");
+
             try
             {
                 const string cacheKey = "AllOrders";
@@ -32,7 +35,10 @@ namespace AdvancedLINQApiShowcase.Services
                 }
 
                 _logger.LogInformation("Cache miss for all orders. Retrieving from database.");
-                var orders = await _context.Orders.ToListAsync();
+
+                var orders = await _context.Orders
+                    .OrderBy(c =>c.Id)
+                    .ToListAsync();
 
                 if (orders.Any())
                 {
@@ -48,6 +54,8 @@ namespace AdvancedLINQApiShowcase.Services
         }
         public async Task<Order?> GetOrderByIdAsync(int id)
         {
+            _logger.LogInformation("Fetching order by id");
+
             try
             {
                 var cacheKey = $"Order_{id}";
@@ -76,31 +84,79 @@ namespace AdvancedLINQApiShowcase.Services
         }
         public async Task AddOrderAsync(Order order)
         {
-            await _context.Orders.AddAsync(order);
-            await _context.SaveChangesAsync();
+            _logger.LogInformation("Adding a new Order.");
+
+            try
+            {
+                if (order is null)
+                {
+                    _logger.LogInformation("a new order could not be created because the user did not enter order information.");
+
+                    throw new ArgumentNullException(nameof(order), "Order cannot be null.");
+                }
+                _logger.LogInformation("Adding new order with name: {OrderName}", order.Name);
+
+                await _context.Orders.AddAsync(order);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Order with ID {OrderId} created successfully.", order.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding the order.");
+                throw;
+            }
         }
         public async Task UpdateOrderAsync(Order order)
         {
+            _logger.LogInformation("Updating existing Order");
+
             var existingOrderToUpdate = await _context.Orders.FindAsync(order.Id);
-            if (existingOrderToUpdate != null)
+            if (existingOrderToUpdate is not null)
             {
+                _logger.LogInformation("Updating order with ID {OrderId} and Name {OrderName}", order.Id, order.Name);
+
                 existingOrderToUpdate.Name = order.Name;
                 existingOrderToUpdate.OrderDate = order.OrderDate;
                 existingOrderToUpdate.CustomerId = order.CustomerId;
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Successfully updated order with ID {OrderId}.", order.Id);
+
             }
         }
         public async Task DeleteOrderAsync(int id)
         {
-            var orderDelete = await _context.Orders.FindAsync(id);
-            if (orderDelete != null)
+            _logger.LogInformation("Attempting to delete order with ID: {OrderId}", id);
+            var transactionId = Guid.NewGuid().ToString();
+
+            _logger.LogInformation("Transaction {TransactionId} started: Deleting order with ID: {OrderId}", transactionId, id);
+            try
             {
-                _context.Orders.Remove(orderDelete);
-                await _context.SaveChangesAsync();
+                var existingOrder = await _context.Orders.FindAsync(id);
+                if (existingOrder is not null)
+                {
+                    _logger.LogInformation("Order found: Deleting order with ID {OrderId}", id);
+
+                    _context.Orders.Remove(existingOrder);
+                    await _context.SaveChangesAsync();
+
+                    _logger.LogInformation("Transaction {TransactionId} succeeded: Order with ID {OrderId} deleted successfully.", transactionId, id);
+
+                    _logger.LogInformation("Order with ID {OrderId} deleted successfully.", id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Transaction {TransactionId} failed: An error occurred while deleting the order with ID {OrderId}.", transactionId, id);
+
+                _logger.LogWarning("Order with ID {OrderId} not found. Nothing to delete.", id);
             }
         }
         public async Task<PaginatedResult<Order>> GetOrdersAsync(PaginationFilter filter)
         {
+            _logger.LogInformation("Fetching all orders from the database");
+
             var query = _context.Orders.AsQueryable();
 
             if (!string.IsNullOrEmpty(filter.SearchQuery))
@@ -110,7 +166,7 @@ namespace AdvancedLINQApiShowcase.Services
             if (!string.IsNullOrEmpty(filter.SortBy))
             {
                 var propertyInfo = typeof(Order).GetProperty(filter.SortBy);
-                if (propertyInfo != null)
+                if (propertyInfo is not null)
                     query = filter.IsDescending
                     ? query.OrderByDescending(e => EF.Property<object>(e, filter.SortBy))
                     : query.OrderBy(e => EF.Property<object>(e, filter.SortBy));

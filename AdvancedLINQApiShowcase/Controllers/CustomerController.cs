@@ -96,7 +96,6 @@ namespace AdvancedLINQApiShowcase.Controllers
             }
         }
 
-
         [HttpGet("paged")]
         public async Task<IActionResult> GetCustomers([FromQuery] PaginationFilter filter)
         {
