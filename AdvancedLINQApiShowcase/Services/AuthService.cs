@@ -29,6 +29,7 @@ namespace AdvancedLINQApiShowcase.Services
 
             user.Username = request.Username;
             user.PasswordHash = hashedPassword;
+            user.Role = request.Role;
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -51,12 +52,10 @@ namespace AdvancedLINQApiShowcase.Services
 
             return await CreateTokenResponse(user);
         }
-
         private async Task<TokenResponseDto> CreateTokenResponse(User user)
         {
             return new TokenResponseDto { AccessToken = CreateToken(user), RefreshToken = await GenerateAndSaveRefreshTokenAsync(user) };
         }
-
         public async Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto request)
         {
             var user = await ValidateRefreshTokenAsync(request.UserId, request.RefreshToken);
@@ -65,7 +64,6 @@ namespace AdvancedLINQApiShowcase.Services
 
             return await CreateTokenResponse(user);
         }
-
         public async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
         {
             var user = await context.Users.FindAsync(userId);
@@ -81,7 +79,6 @@ namespace AdvancedLINQApiShowcase.Services
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
-
         private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
         {
             var refreshToken = GenerateRefreshToken();

@@ -1,6 +1,7 @@
 ﻿using AdvancedLINQApiShowcase.Interfaces;
 using AdvancedLINQApiShowcase.Models;
 using AdvancedLINQApiShowcase.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             this._logger = logger;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCustomers()
         {
@@ -33,6 +35,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(int id)
         {
@@ -43,6 +46,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             return Ok(customer);
         }
 
+        [Authorize(Roles = "Employer,Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] Customer customer)
         {
@@ -54,7 +58,8 @@ namespace AdvancedLINQApiShowcase.Controllers
                 id = customer.Id
             }, customer);
         }
-       
+
+        [Authorize(Roles = "Employer,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(int id, [FromBody] Customer customer)
         {
@@ -79,6 +84,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }          
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
@@ -96,6 +102,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("paged")]
         public async Task<IActionResult> GetCustomers([FromQuery] PaginationFilter filter)
         {

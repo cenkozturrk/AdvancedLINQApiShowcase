@@ -48,3 +48,59 @@
 2025-01-29 00:23:30.498 +03:00 [INF] Transaction d6b85e5f-31fa-48fe-ba9a-ee0813b98575 succeeded: Order with ID 10 deleted successfully.
 2025-01-29 00:23:31.097 +03:00 [INF] Order with ID 10 deleted successfully.
 2025-01-29 00:24:15.300 +03:00 [INF] Fetching all orders from the database
+2025-01-29 00:41:02.846 +03:00 [INF] Starting the application...
+2025-01-29 00:47:55.118 +03:00 [INF] Starting the application...
+2025-01-29 00:48:42.376 +03:00 [INF] Starting the application...
+2025-01-29 01:02:06.526 +03:00 [INF] Starting the application...
+2025-01-29 01:12:09.184 +03:00 [INF] Starting the application...
+2025-01-29 01:13:01.836 +03:00 [INF] Fetching all orders from the database
+2025-01-29 01:13:02.105 +03:00 [WRN] Cache miss for key: AllOrders
+2025-01-29 01:13:02.105 +03:00 [INF] Cache miss for all orders. Retrieving from database.
+2025-01-29 01:13:02.180 +03:00 [INF] Data cached for key: AllOrders, expires in 5 minutes
+2025-01-29 01:15:21.803 +03:00 [INF] Attempting to delete order with ID: 8
+2025-01-29 01:15:21.809 +03:00 [INF] Transaction bbba3b3c-ddd4-47eb-b63c-b88ac86ec28f started: Deleting order with ID: 8
+2025-01-29 01:15:21.970 +03:00 [INF] Order found: Deleting order with ID 8
+2025-01-29 01:15:22.006 +03:00 [INF] Transaction bbba3b3c-ddd4-47eb-b63c-b88ac86ec28f succeeded: Order with ID 8 deleted successfully.
+2025-01-29 01:15:22.007 +03:00 [INF] Order with ID 8 deleted successfully.
+2025-01-29 01:15:42.601 +03:00 [INF] Attempting to delete order with ID: 8
+2025-01-29 01:15:42.601 +03:00 [INF] Transaction db27f1da-28f2-4c96-a9d8-2b45e2cbf2c8 started: Deleting order with ID: 8
+2025-01-29 01:15:58.243 +03:00 [INF] Starting the application...
+2025-01-29 01:16:26.954 +03:00 [INF] Attempting to delete order with ID: 8
+2025-01-29 01:16:26.959 +03:00 [INF] Transaction 3b57b00e-38a8-419b-bf8f-300e883f05d2 started: Deleting order with ID: 8
+2025-01-29 01:16:36.440 +03:00 [INF] Attempting to delete order with ID: 12
+2025-01-29 01:16:36.440 +03:00 [INF] Transaction 1e961686-55dc-4593-a811-265d9456568f started: Deleting order with ID: 12
+2025-01-29 01:16:41.466 +03:00 [INF] Attempting to delete order with ID: 12
+2025-01-29 01:16:41.466 +03:00 [INF] Transaction ed39f5a6-040c-4ec5-8a3e-a24e0cb123da started: Deleting order with ID: 12
+2025-01-29 01:16:42.252 +03:00 [INF] Attempting to delete order with ID: 12
+2025-01-29 01:16:42.252 +03:00 [INF] Transaction a7594624-4884-48c5-8377-58ed0769095b started: Deleting order with ID: 12
+2025-01-29 01:16:50.308 +03:00 [INF] Fetching all customers from the database
+2025-01-29 01:16:50.460 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-29 01:16:50.460 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-29 01:16:50.516 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-29 01:17:07.002 +03:00 [INF] Fetching all orders from the database
+2025-01-29 01:17:07.005 +03:00 [INF] Cache hit for key: AllOrders
+2025-01-29 01:17:07.011 +03:00 [INF] Cache hit for all orders.
+2025-01-29 01:17:22.154 +03:00 [INF] Attempting to delete order with ID: 8
+2025-01-29 01:17:26.556 +03:00 [INF] Transaction d192815d-6e06-4798-b3bd-3c731546956c started: Deleting order with ID: 8
+2025-01-29 01:22:56.632 +03:00 [INF] Starting the application...
+2025-01-29 01:26:01.731 +03:00 [INF] Starting the application...
+2025-01-29 01:27:50.987 +03:00 [INF] Fetching all customers from the database
+2025-01-29 01:27:51.228 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-29 01:27:51.229 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-29 01:27:51.274 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-29 01:33:01.743 +03:00 [INF] Starting the application...
+2025-01-29 01:33:38.724 +03:00 [INF] Starting the application...
+2025-01-29 01:34:10.012 +03:00 [INF] Starting the application...
+2025-01-29 01:35:05.358 +03:00 [INF] Starting the application...
+2025-01-29 01:39:07.055 +03:00 [INF] Starting the application...
+2025-01-29 01:40:30.742 +03:00 [INF] Starting the application...
+2025-01-29 01:42:13.115 +03:00 [INF] Fetching all customers from the database
+2025-01-29 01:42:13.461 +03:00 [WRN] Cache miss for key: AllCustomers
+2025-01-29 01:42:13.462 +03:00 [INF] Cache miss for all customers. Retrieving from database.
+2025-01-29 01:42:13.546 +03:00 [INF] Data cached for key: AllCustomers, expires in 5 minutes
+2025-01-29 01:43:29.360 +03:00 [INF] Starting the application...
+2025-01-29 01:46:58.782 +03:00 [INF] Attempting to delete customer with ID: 5
+2025-01-29 01:46:58.787 +03:00 [INF] Transaction 89b9b095-70e9-468a-83d5-c77be6986e30 started: Deleting customer with ID: 5
+2025-01-29 01:46:58.854 +03:00 [INF] Customer found: Deleting customer with ID 5
+2025-01-29 01:46:58.879 +03:00 [INF] Transaction 89b9b095-70e9-468a-83d5-c77be6986e30 succeeded: Customer with ID 5 deleted successfully.
+2025-01-29 01:46:58.879 +03:00 [INF] Customer with ID 5 deleted successfully.

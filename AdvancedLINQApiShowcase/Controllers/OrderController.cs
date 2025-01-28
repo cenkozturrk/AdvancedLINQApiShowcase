@@ -3,6 +3,7 @@ using AdvancedLINQApiShowcase.Models;
 using AdvancedLINQApiShowcase.Pagination;
 using AdvancedLINQApiShowcase.Services;
 using Castle.Core.Resource;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +15,14 @@ namespace AdvancedLINQApiShowcase.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly ILogger<OrderController> _logger;
-
+    
         public OrderController(IOrderService orderService, ILogger<OrderController> logger)
         {
             this._orderService = orderService;
             this._logger = logger;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
@@ -46,6 +48,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = "Employer,Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] Order order)
         {
@@ -56,6 +59,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }, order);
         }
 
+        [Authorize(Roles = "Employer,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order order)
         {
@@ -80,6 +84,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }          
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -97,6 +102,7 @@ namespace AdvancedLINQApiShowcase.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("paged")]
         public async Task<IActionResult> GetOrdersAsync([FromQuery] PaginationFilter filter)
         {
